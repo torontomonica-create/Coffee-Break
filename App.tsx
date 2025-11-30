@@ -184,7 +184,7 @@ const App: React.FC = () => {
     }
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY as string; });
       const coffeeName = COFFEE_CONFIG[coffeeType].name;
       
       // Context: Calculate how many cups user had including this one
