@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>5-Minute Coffee Break</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              coffee: {
+                50: '#fdf8f6',
+                100: '#f2e8e5',
+                200: '#eaddd7',
+                300: '#e0cec7',
+                400: '#d2bab0',
+                500: '#a1887f',
+                600: '#8d6e63',
+                700: '#795548',
+                800: '#5d4037',
+                900: '#3e2723',
+              }
+            },
+            keyframes: {
+              steam: {
+                '0%': { transform: 'translateY(0) scale(1)', opacity: '0.5' },
+                '100%': { transform: 'translateY(-20px) scale(1.5)', opacity: '0' },
+              },
+              'fade-in': {
+                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              sip: {
+                '0%': { transform: 'scale(1) translateY(0)' },
+                '20%': { transform: 'scale(1.02) translateY(-2px) rotate(1deg)' },
+                '50%': { transform: 'scale(1) translateY(0) rotate(-1deg)' },
+                '80%': { transform: 'scale(0.99) translateY(1px) rotate(0deg)' },
+                '100%': { transform: 'scale(1) translateY(0)' }
+              }
+            },
+            animation: {
+              steam: 'steam 2s infinite linear',
+              'fade-in': 'fade-in 0.5s ease-out forwards',
+              sip: 'sip 0.4s ease-in-out',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Global box-sizing reset */
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      html, body, #root {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* App handles internal scrolling */
+        background-color: #fdf8f6;
+        -webkit-tap-highlight-color: transparent;
+      }
+      
+      /* Utility to hide scrollbar for app-like feel */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
