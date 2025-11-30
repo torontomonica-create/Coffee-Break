@@ -5,7 +5,7 @@ import { CoffeeCup } from './components/CoffeeCup';
 import { Timer } from './components/Timer';
 import { ChatOverlay } from './components/ChatOverlay';
 import { StatsFooter } from './components/StatsFooter';
-import { Coffee, RotateCw, LogOut, Clock } from 'lucide-react';
+import { Coffee, RotateCw, LogOut, Clock, ChevronRight } from 'lucide-react';
 import { GoogleGenAI, Chat } from "@google/genai";
 
 // --- Constants for Persistence & Sync ---
@@ -316,61 +316,66 @@ const App: React.FC = () => {
   // --- Renders ---
 
   const renderMenu = () => (
-    <div className="flex flex-col h-full w-full max-w-2xl mx-auto p-4 md:p-6 pt-[max(1.5rem,env(safe-area-inset-top))] animate-fade-in bg-stone-50">
-      <div className="flex flex-col items-center mt-4 mb-6">
-        <div className="p-4 bg-coffee-100 rounded-full mb-4">
-          <Coffee size={40} className="text-coffee-600" />
-        </div>
-        <h1 className="text-3xl font-bold text-coffee-800 mb-2">Coffee Break</h1>
-        <p className="text-stone-500 text-center text-sm">
+    <div className="flex flex-col h-full w-full max-w-2xl mx-auto p-6 pt-[max(2rem,env(safe-area-inset-top))] animate-fade-in bg-white">
+      {/* Header */}
+      <div className="flex flex-col items-center mt-6 mb-10 text-center">
+        <h1 className="text-5xl font-extrabold text-primary mb-3 tracking-tight">Coffee Break</h1>
+        <p className="text-stone-500 text-xl font-medium">
           Select your drink and relax.
+        </p>
+        <p className="text-stone-400 text-sm mt-3 font-bold uppercase tracking-widest">
+          Created by: Miyoung Cho
         </p>
       </div>
 
-      {/* Break Duration Slider */}
-      <div className="mb-6 px-2">
-        <div className="flex justify-between items-center mb-2">
-           <div className="flex items-center gap-2 text-coffee-800 font-medium">
-             <Clock size={16} />
-             <span>Set Break Duration</span>
+      {/* Break Duration Section */}
+      <div className="mb-10 px-2">
+        <div className="flex justify-between items-end mb-4">
+           <div className="flex items-center gap-2 text-primary font-bold text-xl">
+             <Clock size={24} strokeWidth={2.5} />
+             <span>Duration</span>
            </div>
-           <span className="text-coffee-600 font-mono font-bold bg-coffee-100 px-2 py-0.5 rounded text-sm">
+           <span className="text-white bg-primary px-4 py-1.5 rounded-full text-base font-bold shadow-md">
              {formatDuration(breakDuration)}
            </span>
         </div>
-        <input
-          type="range"
-          min={MIN_DURATION}
-          max={MAX_DURATION}
-          step={DURATION_STEP}
-          value={breakDuration}
-          onChange={(e) => setBreakDuration(Number(e.target.value))}
-          className="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-coffee-600 focus:outline-none focus:ring-2 focus:ring-coffee-400"
-        />
-        <div className="flex justify-between text-xs text-stone-400 mt-1 font-mono">
-           <span>1:00</span>
-           <span>2:00</span>
-           <span>3:00</span>
-           <span>4:00</span>
-           <span>5:00</span>
+        
+        <div className="relative h-8 flex items-center">
+          <input
+            type="range"
+            min={MIN_DURATION}
+            max={MAX_DURATION}
+            step={DURATION_STEP}
+            value={breakDuration}
+            onChange={(e) => setBreakDuration(Number(e.target.value))}
+            className="w-full h-3 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-stone-300"
+          />
+        </div>
+        <div className="flex justify-between text-xs text-stone-400 mt-2 font-bold uppercase tracking-wider">
+           <span>1 min</span>
+           <span>5 min</span>
         </div>
       </div>
 
-      <div className="grid gap-4 flex-1 overflow-y-auto pb-24 no-scrollbar">
+      {/* Coffee Selection List */}
+      <div className="grid gap-5 flex-1 overflow-y-auto pb-24 no-scrollbar">
         {Object.entries(COFFEE_CONFIG).map(([key, config]) => (
           <button
             key={key}
             onClick={() => handleStart(key as CoffeeType)}
-            className="group relative flex items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-100 hover:border-coffee-300 hover:shadow-md transition-all active:scale-[0.98]"
+            className="group relative flex items-center p-6 bg-white rounded-[28px] shadow-sm border border-stone-100 hover:shadow-xl hover:border-stone-200 transition-all active:scale-[0.98] duration-300"
           >
-            <div className={`w-16 h-16 rounded-full ${config.color} mr-4 flex-shrink-0 shadow-inner flex items-center justify-center`}>
-                <Coffee className="text-white/50" size={24} />
+            <div className={`w-20 h-20 rounded-full ${config.color} mr-6 flex-shrink-0 shadow-md flex items-center justify-center`}>
+                <Coffee className="text-white/70" size={36} />
             </div>
-            <div className="text-left">
-              <h3 className="font-bold text-lg text-stone-800 group-hover:text-coffee-700 transition-colors">
+            <div className="text-left flex-1">
+              <h3 className="font-bold text-2xl text-primary mb-1">
                 {config.name}
               </h3>
-              <p className="text-sm text-stone-400">{config.description}</p>
+              <p className="text-base text-stone-500 font-medium">{config.description}</p>
+            </div>
+            <div className="text-stone-300 group-hover:text-primary transition-colors">
+              <ChevronRight size={28} />
             </div>
           </button>
         ))}
@@ -383,12 +388,12 @@ const App: React.FC = () => {
   );
 
   const renderActiveBreak = () => (
-    <div className="relative h-full flex flex-col bg-stone-50 overflow-hidden w-full">
+    <div className="relative h-full flex flex-col bg-white overflow-hidden w-full">
       {/* Header - Absolute top */}
       <div className="absolute top-0 left-0 w-full p-4 pt-[max(1.5rem,env(safe-area-inset-top))] flex justify-between items-start z-30 pointer-events-none">
          <div className="pointer-events-auto">
-             <button onClick={() => handleFinish(false)} className="p-2 bg-white/50 rounded-full text-stone-500 hover:bg-stone-200 backdrop-blur-sm shadow-sm transition-colors">
-                 <LogOut size={20} />
+             <button onClick={() => handleFinish(false)} className="p-3 bg-white/80 rounded-full text-primary hover:bg-stone-100 backdrop-blur-md shadow-md transition-colors">
+                 <LogOut size={24} />
              </button>
          </div>
          <div className="pointer-events-auto">
@@ -396,10 +401,10 @@ const App: React.FC = () => {
          </div>
       </div>
 
-      {/* Main Content - Flex container that fills available space */}
+      {/* Main Content */}
       <div className="flex-1 relative flex flex-col w-full h-full">
         
-        {/* Coffee Layer - Shifted UP to prevent overlap with chat */}
+        {/* Coffee Layer */}
         <div className="absolute inset-0 flex items-start justify-center pt-[15vh] z-0 pointer-events-auto px-4">
           {selectedCoffee && (
             <CoffeeCup 
@@ -410,61 +415,61 @@ const App: React.FC = () => {
           )}
         </div>
 
-        {/* Chat Layer - Overlays coffee but constrained by internal styling */}
+        {/* Chat Layer */}
         <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-end">
            <ChatOverlay messages={messages} onSendMessage={handleSendMessage} />
         </div>
       </div>
       
-       {/* Footer - Fixed at bottom of flex container */}
-       <div className="relative z-20 w-full flex-shrink-0 bg-stone-50">
+       {/* Footer */}
+       <div className="relative z-20 w-full flex-shrink-0 bg-white">
         <StatsFooter stats={stats} />
       </div>
     </div>
   );
 
   const renderFinished = () => (
-    <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl mx-auto p-8 pt-[max(2rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] bg-stone-100 text-center animate-fade-in select-none">
-       <div className="mb-8 p-6 bg-white rounded-full shadow-lg">
+    <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl mx-auto p-8 pt-[max(2rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] bg-white text-center animate-fade-in select-none">
+       <div className="mb-12 p-8 bg-stone-50 rounded-full shadow-inner">
         {sipsTaken >= MAX_SIPS ? (
-            <div className="text-4xl">😋</div>
+            <div className="text-7xl">😋</div>
         ) : (
-             <div className="text-4xl">⏰</div>
+             <div className="text-7xl">⏰</div>
         )}
        </div>
       
-      <h2 className="text-3xl font-bold text-coffee-800 mb-4">
+      <h2 className="text-5xl font-black text-primary mb-5 tracking-tight">
         {sipsTaken >= MAX_SIPS ? "All done!" : "Break's Over"}
       </h2>
       
-      <p className="text-lg text-stone-600 mb-8 max-w-xs leading-relaxed">
+      <p className="text-2xl text-stone-500 mb-12 max-w-xs leading-relaxed font-medium">
         {sipsTaken >= MAX_SIPS 
           ? "Your break is up.\nRecharged and ready!" 
           : "Time is up.\nLet's finish the coffee next time."}
       </p>
 
-      <div className="p-4 bg-white/50 rounded-xl mb-10 w-full max-w-xs mx-auto">
-          <p className="text-sm text-stone-500 mb-2">My Break Stats</p>
-          <div className="flex justify-between items-center font-mono text-lg text-coffee-700 font-bold">
-            <span>{COFFEE_CONFIG[selectedCoffee!].name}</span>
-            <span>{Math.round((sipsTaken / MAX_SIPS) * 100)}%</span>
+      <div className="p-8 bg-surface rounded-3xl mb-12 w-full max-w-xs mx-auto border border-stone-100">
+          <p className="text-sm font-bold text-stone-400 uppercase tracking-widest mb-3">My Break Stats</p>
+          <div className="flex justify-between items-center text-primary font-bold">
+            <span className="text-xl">{COFFEE_CONFIG[selectedCoffee!].name}</span>
+            <span className="text-3xl">{Math.round((sipsTaken / MAX_SIPS) * 100)}%</span>
           </div>
       </div>
 
       <button
         onClick={handleRestart}
-        className="flex items-center justify-center space-x-2 px-8 py-4 bg-coffee-600 text-white rounded-full shadow-lg hover:bg-coffee-700 hover:shadow-xl transition-all active:scale-95 w-full max-w-xs"
+        className="flex items-center justify-center space-x-3 px-10 py-5 bg-primary text-white rounded-full shadow-lg hover:bg-stone-800 hover:shadow-xl transition-all active:scale-95 w-full max-w-sm"
       >
-        <RotateCw size={20} />
-        <span className="font-bold">Drink Again</span>
+        <RotateCw size={24} strokeWidth={2.5} />
+        <span className="font-bold text-xl">Drink Again</span>
       </button>
       
-      <p className="mt-8 text-stone-400 text-sm">Let's drink together again soon!</p>
+      <p className="mt-10 text-stone-400 text-base font-medium">Let's drink together again soon!</p>
     </div>
   );
 
   return (
-    <div className="w-full h-[100dvh] bg-stone-50 overflow-hidden text-stone-900">
+    <div className="w-full h-[100dvh] bg-white overflow-hidden text-primary">
       {status === AppStatus.MENU && renderMenu()}
       {status === AppStatus.DRINKING && renderActiveBreak()}
       {status === AppStatus.FINISHED && renderFinished()}

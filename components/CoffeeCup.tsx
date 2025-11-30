@@ -76,7 +76,7 @@ export const CoffeeCup: React.FC<CoffeeCupProps> = ({ type, sipsTaken, onSip }) 
     <div className="relative flex flex-col items-center justify-center h-auto w-full max-w-[320px] mx-auto select-none p-4">
       
       {/* Sip Instruction - Positioned above the cup to avoid being covered by chat */}
-      <div className={`mb-6 text-stone-500 font-medium animate-pulse text-center w-full transition-opacity duration-500 ${remainingSips > 0 ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`mb-10 text-stone-400 font-bold tracking-wide text-xl animate-pulse text-center w-full transition-opacity duration-500 ${remainingSips > 0 ? 'opacity-100' : 'opacity-0'}`}>
         Tap or Hold to Sip!
       </div>
 

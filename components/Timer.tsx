@@ -22,9 +22,9 @@ export const Timer: React.FC<TimerProps> = ({ secondsRemaining, onTimeUp }) => {
   const isUrgent = secondsRemaining < 30;
 
   return (
-    <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-full backdrop-blur-sm shadow-sm transition-colors duration-300 ${isUrgent ? 'bg-red-100 text-red-600' : 'bg-white/80 text-stone-600'}`}>
-      <Clock size={16} className={isUrgent ? 'animate-pulse' : ''} />
-      <span className="font-mono font-bold tabular-nums text-lg">
+    <div className={`flex items-center space-x-2 px-5 py-2.5 rounded-full backdrop-blur-md shadow-sm transition-colors duration-300 ${isUrgent ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-white/90 text-primary border border-white'}`}>
+      <Clock size={20} strokeWidth={2.5} className={isUrgent ? 'animate-pulse' : ''} />
+      <span className="font-sans font-bold tabular-nums text-2xl tracking-tight">
         {formatTime(secondsRemaining)}
       </span>
     </div>

@@ -1,14 +1,1 @@
-// Reference to 'vite/client' removed due to missing type definitions.
-// Explicitly declaring used asset modules.
-
-declare module '*.css';
-declare module '*.svg' {
-  import * as React from 'react';
-  export const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string }>;
-  const src: string;
-  export default src;
-}
-declare module '*.png';
-declare module '*.jpg';
-declare module '*.jpeg';
-declare module '*.gif';
+/// <reference types="vite/client" />
