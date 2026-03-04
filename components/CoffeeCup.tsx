@@ -73,20 +73,20 @@ export const CoffeeCup: React.FC<CoffeeCupProps> = ({ type, sipsTaken, onSip }) 
   );
 
   return (
-    <div className="relative flex flex-col items-center justify-center h-auto w-full max-w-[320px] mx-auto select-none p-4">
-      
-      {/* Sip Instruction - Positioned above the cup to avoid being covered by chat */}
-      <div className={`mb-10 text-stone-400 font-bold tracking-wide text-xl animate-pulse text-center w-full transition-opacity duration-500 ${remainingSips > 0 ? 'opacity-100' : 'opacity-0'}`}>
+    <div className="relative flex flex-col items-center justify-center h-auto w-full max-w-[280px] sm:max-w-[320px] mx-auto select-none p-3 sm:p-4">
+
+      {/* Sip Instruction */}
+      <div className={`mb-6 sm:mb-10 text-stone-400 font-bold tracking-wide text-base sm:text-xl animate-pulse text-center w-full transition-opacity duration-500 ${remainingSips > 0 ? 'opacity-100' : 'opacity-0'}`}>
         Tap or Hold to Sip!
       </div>
 
       {/* Interactive Wrapper - handles click/hold and scale animation */}
-      <div 
+      <div
         onPointerDown={startSipping}
         onPointerUp={stopSipping}
         onPointerLeave={stopSipping}
         onContextMenu={(e) => e.preventDefault()}
-        className={`relative w-48 h-60 cursor-pointer transition-transform active:scale-95 active:rotate-1 ${isSipping ? 'animate-sip' : ''}`}
+        className={`relative w-36 h-48 sm:w-48 sm:h-60 cursor-pointer transition-transform active:scale-95 active:rotate-1 ${isSipping ? 'animate-sip' : ''}`}
         style={{ touchAction: 'none' }}
       >
         {/* Steam for Hot Coffee - Rendered behind the cup but rising above */}

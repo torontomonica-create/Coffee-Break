@@ -316,30 +316,30 @@ const App: React.FC = () => {
   // --- Renders ---
 
   const renderMenu = () => (
-    <div className="flex flex-col h-full w-full max-w-2xl mx-auto p-6 pt-[max(2rem,env(safe-area-inset-top))] animate-fade-in bg-white">
+    <div className="flex flex-col h-full w-full max-w-2xl mx-auto px-4 sm:px-6 pt-[max(1.25rem,env(safe-area-inset-top))] animate-fade-in bg-white">
       {/* Header */}
-      <div className="flex flex-col items-center mt-6 mb-10 text-center">
-        <h1 className="text-5xl font-extrabold text-primary mb-3 tracking-tight">Coffee Break</h1>
-        <p className="text-stone-500 text-xl font-medium">
+      <div className="flex flex-col items-center mt-2 sm:mt-6 mb-4 sm:mb-8 text-center">
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-primary mb-1.5 sm:mb-3 tracking-tight">Coffee Break</h1>
+        <p className="text-stone-500 text-sm sm:text-xl font-medium">
           Select your drink and relax.
         </p>
-        <p className="text-stone-400 text-sm mt-3 font-bold uppercase tracking-widest">
+        <p className="text-stone-400 text-xs sm:text-sm mt-1.5 sm:mt-3 font-bold uppercase tracking-widest">
           Created by: Miyoung Cho
         </p>
       </div>
 
       {/* Break Duration Section */}
-      <div className="mb-10 px-2">
-        <div className="flex justify-between items-end mb-4">
-           <div className="flex items-center gap-2 text-primary font-bold text-xl">
-             <Clock size={24} strokeWidth={2.5} />
+      <div className="mb-4 sm:mb-8 px-1 sm:px-2">
+        <div className="flex justify-between items-end mb-2.5 sm:mb-4">
+           <div className="flex items-center gap-2 text-primary font-bold text-base sm:text-xl">
+             <Clock size={20} strokeWidth={2.5} />
              <span>Duration</span>
            </div>
-           <span className="text-white bg-primary px-4 py-1.5 rounded-full text-base font-bold shadow-md">
+           <span className="text-white bg-primary px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-sm sm:text-base font-bold shadow-md">
              {formatDuration(breakDuration)}
            </span>
         </div>
-        
+
         <div className="relative h-8 flex items-center">
           <input
             type="range"
@@ -358,29 +358,29 @@ const App: React.FC = () => {
       </div>
 
       {/* Coffee Selection List */}
-      <div className="grid gap-5 flex-1 overflow-y-auto pb-24 no-scrollbar">
+      <div className="grid gap-3 sm:gap-5 flex-1 overflow-y-auto pb-20 no-scrollbar">
         {Object.entries(COFFEE_CONFIG).map(([key, config]) => (
           <button
             key={key}
             onClick={() => handleStart(key as CoffeeType)}
-            className="group relative flex items-center p-6 bg-white rounded-[28px] shadow-sm border border-stone-100 hover:shadow-xl hover:border-stone-200 transition-all active:scale-[0.98] duration-300"
+            className="group relative flex items-center p-4 sm:p-6 bg-white rounded-[22px] sm:rounded-[28px] shadow-sm border border-stone-100 hover:shadow-xl hover:border-stone-200 transition-all active:scale-[0.98] duration-300"
           >
-            <div className={`w-20 h-20 rounded-full ${config.color} mr-6 flex-shrink-0 shadow-md flex items-center justify-center`}>
-                <Coffee className="text-white/70" size={36} />
+            <div className={`w-14 h-14 sm:w-20 sm:h-20 rounded-full ${config.color} mr-4 sm:mr-6 flex-shrink-0 shadow-md flex items-center justify-center`}>
+                <Coffee className="text-white/70" size={26} />
             </div>
             <div className="text-left flex-1">
-              <h3 className="font-bold text-2xl text-primary mb-1">
+              <h3 className="font-bold text-lg sm:text-2xl text-primary mb-0.5 sm:mb-1">
                 {config.name}
               </h3>
-              <p className="text-base text-stone-500 font-medium">{config.description}</p>
+              <p className="text-sm sm:text-base text-stone-500 font-medium">{config.description}</p>
             </div>
             <div className="text-stone-300 group-hover:text-primary transition-colors">
-              <ChevronRight size={28} />
+              <ChevronRight size={22} />
             </div>
           </button>
         ))}
       </div>
-      
+
       <div className="fixed bottom-0 left-0 w-full z-20">
         <StatsFooter stats={stats} />
       </div>
@@ -429,42 +429,42 @@ const App: React.FC = () => {
   );
 
   const renderFinished = () => (
-    <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl mx-auto p-8 pt-[max(2rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] bg-white text-center animate-fade-in select-none">
-       <div className="mb-12 p-8 bg-stone-50 rounded-full shadow-inner">
+    <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl mx-auto px-6 sm:p-8 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] bg-white text-center animate-fade-in select-none overflow-y-auto">
+       <div className="mb-5 sm:mb-12 p-5 sm:p-8 bg-stone-50 rounded-full shadow-inner">
         {sipsTaken >= MAX_SIPS ? (
-            <div className="text-7xl">😋</div>
+            <div className="text-5xl sm:text-7xl">😋</div>
         ) : (
-             <div className="text-7xl">⏰</div>
+             <div className="text-5xl sm:text-7xl">⏰</div>
         )}
        </div>
-      
-      <h2 className="text-5xl font-black text-primary mb-5 tracking-tight">
+
+      <h2 className="text-3xl sm:text-5xl font-black text-primary mb-3 sm:mb-5 tracking-tight">
         {sipsTaken >= MAX_SIPS ? "All done!" : "Break's Over"}
       </h2>
-      
-      <p className="text-2xl text-stone-500 mb-12 max-w-xs leading-relaxed font-medium">
-        {sipsTaken >= MAX_SIPS 
-          ? "Your break is up.\nRecharged and ready!" 
+
+      <p className="text-lg sm:text-2xl text-stone-500 mb-5 sm:mb-12 max-w-xs leading-relaxed font-medium">
+        {sipsTaken >= MAX_SIPS
+          ? "Your break is up.\nRecharged and ready!"
           : "Time is up.\nLet's finish the coffee next time."}
       </p>
 
-      <div className="p-8 bg-surface rounded-3xl mb-12 w-full max-w-xs mx-auto border border-stone-100">
-          <p className="text-sm font-bold text-stone-400 uppercase tracking-widest mb-3">My Break Stats</p>
+      <div className="p-5 sm:p-8 bg-surface rounded-3xl mb-5 sm:mb-12 w-full max-w-xs mx-auto border border-stone-100">
+          <p className="text-xs sm:text-sm font-bold text-stone-400 uppercase tracking-widest mb-2 sm:mb-3">My Break Stats</p>
           <div className="flex justify-between items-center text-primary font-bold">
-            <span className="text-xl">{COFFEE_CONFIG[selectedCoffee!].name}</span>
-            <span className="text-3xl">{Math.round((sipsTaken / MAX_SIPS) * 100)}%</span>
+            <span className="text-lg sm:text-xl">{COFFEE_CONFIG[selectedCoffee!].name}</span>
+            <span className="text-2xl sm:text-3xl">{Math.round((sipsTaken / MAX_SIPS) * 100)}%</span>
           </div>
       </div>
 
       <button
         onClick={handleRestart}
-        className="flex items-center justify-center space-x-3 px-10 py-5 bg-primary text-white rounded-full shadow-lg hover:bg-stone-800 hover:shadow-xl transition-all active:scale-95 w-full max-w-sm"
+        className="flex items-center justify-center space-x-3 px-8 sm:px-10 py-4 sm:py-5 bg-primary text-white rounded-full shadow-lg hover:bg-stone-800 hover:shadow-xl transition-all active:scale-95 w-full max-w-sm"
       >
-        <RotateCw size={24} strokeWidth={2.5} />
-        <span className="font-bold text-xl">Drink Again</span>
+        <RotateCw size={22} strokeWidth={2.5} />
+        <span className="font-bold text-lg sm:text-xl">Drink Again</span>
       </button>
-      
-      <p className="mt-10 text-stone-400 text-base font-medium">Let's drink together again soon!</p>
+
+      <p className="mt-6 sm:mt-10 text-stone-400 text-sm sm:text-base font-medium">Let's drink together again soon!</p>
     </div>
   );
 
