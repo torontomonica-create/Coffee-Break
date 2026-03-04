@@ -8,8 +8,8 @@ interface StatsFooterProps {
 
 export const StatsFooter: React.FC<StatsFooterProps> = ({ stats }) => {
   return (
-    <div className="w-full bg-primary text-white py-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] px-6 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
-      <div className="flex justify-between items-center max-w-2xl mx-auto text-base w-full font-medium">
+    <div className="w-full bg-primary text-white py-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] px-6 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
+      <div className="flex justify-between items-center max-w-2xl mx-auto text-sm w-full font-medium">
         
         {/* Live Users */}
         <div className="flex items-center space-x-2.5 text-green-400 flex-shrink-0">
