@@ -12,6 +12,52 @@ export const CoffeeCup: React.FC<CoffeeCupProps> = ({ type, sipsTaken, onSip }) 
   const config = COFFEE_CONFIG[type];
   const [isSipping, setIsSipping] = useState(false);
   const intervalRef = useRef<number | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+
+  const getAudioCtx = (): AudioContext => {
+    if (!audioCtxRef.current) {
+      audioCtxRef.current = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+    }
+    if (audioCtxRef.current.state === 'suspended') {
+      audioCtxRef.current.resume();
+    }
+    return audioCtxRef.current;
+  };
+
+  const playSipSound = () => {
+    try {
+      const ctx = getAudioCtx();
+      const duration = 0.13;
+      const bufferSize = Math.floor(ctx.sampleRate * duration);
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+
+      // 아이스커피(빨대)는 높은 주파수 → 공기 빠지는 슬러핑 소리
+      // 핫커피는 낮은 주파수 → 부드러운 홀짝 소리
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = type === CoffeeType.ICED_COFFEE ? 900 : 380;
+      filter.Q.value = type === CoffeeType.ICED_COFFEE ? 0.8 : 1.5;
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.28, ctx.currentTime + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      source.start(ctx.currentTime);
+    } catch {
+      // Web Audio 미지원 시 무음 처리
+    }
+  };
 
   useEffect(() => {
     if (sipsTaken > 0 && sipsTaken <= MAX_SIPS) {
@@ -21,16 +67,21 @@ export const CoffeeCup: React.FC<CoffeeCupProps> = ({ type, sipsTaken, onSip }) 
     }
   }, [sipsTaken]);
 
+  // AudioContext 정리
+  useEffect(() => {
+    return () => {
+      audioCtxRef.current?.close();
+    };
+  }, []);
+
   const startSipping = (e: React.PointerEvent) => {
-    // Prevent default behaviors like scrolling or selection
-    e.preventDefault(); 
-    
-    // Immediate sip logic
+    e.preventDefault();
+    playSipSound();
     onSip();
 
-    // Start continuous sipping
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = window.setInterval(() => {
+      playSipSound();
       onSip();
     }, 150);
   };
@@ -42,7 +93,7 @@ export const CoffeeCup: React.FC<CoffeeCupProps> = ({ type, sipsTaken, onSip }) 
     }
   };
 
-  // Cleanup on unmount
+  // interval 정리
   useEffect(() => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
