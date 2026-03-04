@@ -172,7 +172,7 @@ const App: React.FC = () => {
     baristaChatRef.current = null;
 
     // Fallback immediately if no key provided
-    if (!process.env.API_KEY) {
+  if (!import.meta.env.VITE_API_KEY) {
       setMessages([{
         id: 'barista-no-key',
         text: "API Key 설정이 필요합니다. (Netlify 설정 확인)",
