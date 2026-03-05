@@ -1,0 +1,18 @@
+{
+  "name": "Coffee Break",
+  "short_name": "Coffee Break",
+  "description": "Take a 5-minute coffee break with your AI barista",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2B2B2B",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
